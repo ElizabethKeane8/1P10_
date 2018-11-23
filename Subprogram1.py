@@ -1,9 +1,3 @@
-'''
-Created on Nov 23, 2018
-
-@author: Elizabeth
-'''
-
 import math
 teamNumber = 27
 bodyWeight = (52.5*9.8)
