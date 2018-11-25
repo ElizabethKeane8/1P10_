@@ -24,49 +24,46 @@ def sp1 ():
     
     while(correct==False):
         d+=1
-        print("while 1",d,c)
-        if (round(function(d),4)==ultTenStrength):
-            minStemDia=function(d)
+        if (round(UTSfunction(d),4)==ultTenStrength):
+            minStemDia=round(d,4)
             correct = True
             break
-        elif (round(function(d),4)<ultTenStrength):
+        elif (round(UTSfunction(d),4)<ultTenStrength):
             c=d
             d-=1
             while (correct==False and d+0.1<c):
                 d+=0.1
-                print ("while 2",d,c)
-                if (round(function(d),4)==ultTenStrength):
-                    minStemDia=function(d)
+                if (round(UTSfunction(d),4)==ultTenStrength):
+                    minStemDia=round(d,4)
                     correct = True
                     break
-                elif (round(function(d),4)<ultTenStrength):
+                elif (round(UTSfunction(d),4)<ultTenStrength):
                     c=d
                     d-=0.1
                     while(correct == False and d+0.01<c):
                         d+=0.01
-                        print("while 3",d,c)
-                        if (round(function(d),4)==ultTenStrength):
-                            minStemDia=function(d)
+                        if (round(UTSfunction(d),4)==ultTenStrength):
+                            minStemDia=round(d,4)
                             correct = True
                             break
-                        elif (round(function(d),4)<ultTenStrength):
+                        elif (round(UTSfunction(d),4)<ultTenStrength):
                             c=d
                             d-=0.01
                             while(correct == False and d+0.001<c):
                                 d+=0.001
-                                print("while 4",d,c)
-                                if (round(function(d),4)==ultTenStrength):
-                                    minStemDia=function(d)
+                                print (round(UTSfunction(d),4), ultTenStrength)
+                                if (round(UTSfunction(d),4)==ultTenStrength):
+                                    minStemDia=round(d,4)
                                     correct = True
                                     break
-                                elif (round(function(d),4)<ultTenStrength):
+                                elif (round(UTSfunction(d),4)<ultTenStrength):
                                     c=d
                                     d-=0.001
                                     while(correct == False and d+0.0001<c):
                                         d+=0.0001
-                                        print("while 5",d, c)
-                                        if (round(function(d),4)==ultTenStrength):
-                                            minStemDia=function(d)
+                                        print (round(UTSfunction(d),2), ultTenStrength)
+                                        if (round(UTSfunction(d),2)==ultTenStrength):
+                                            minStemDia=round(d,4)
                                             correct = True
                                             break
                                         #if 0.0001
@@ -87,7 +84,7 @@ def sp1 ():
     print("minStemDia = ",minStemDia)
 
 
-def function(d):
+def UTSfunction(d):
     return (14*bodyWeight*((8*canalOffset)-d))/(math.pi*(d**3))
 
 sp1()
