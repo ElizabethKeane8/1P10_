@@ -87,4 +87,25 @@ def sp1 ():
 def UTSfunction(d):
     return (14*bodyWeight*((8*canalOffset)-d))/(math.pi*(d**3))
 
-sp1()
+def main():
+    home = ("HOME \n")
+    print (home.center(70))
+    exit = False
+    while (exit==False):
+        print (" 1. Subprogram 1 \n 2. Subprogram 2 \n 3. Subprogram 3 \n 4. Exit from program \n")
+        choice = input("Please choose one of the following options by indicating the number that corresponds to your choice: ")
+        if choice == ("1"):
+            sp1()
+            #a parameter must be passed in the paranthesis
+        elif choice == ("2"):
+            subprogram2()
+            #a parameter must be passed in the paranthesis
+        elif choice == ("3"):
+            subprogram3()
+            #a parameter must be passed in the paranthesis
+        elif choice ==("4"):
+            exit = True
+            print ("You have exited from the program.")
+    
+    print ("Thank you for using the program")
+main()
