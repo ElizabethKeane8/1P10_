@@ -1,31 +1,32 @@
 import math
 teamNumber = 27
 bodyWeight = (52.5*9.8)
-#units --> Newtons
+#units: Newtons
 outerDia =  17
-#units --> mm
+#units: mm
 canalDiameter =9.5
-#units --> mm
+#units: mm
 canalOffset = 39
-#units --> mm
+#units: mm
 modulusBone = 30
 ultTenStrength = 490
+#units: MPa
 #The maximum stress a material can stand before it breaks 
 #material is a Titanium alloy --> Ti-29Nb-13Ta-4.6Zr
 modulusImplant = 47 
-#units = GPa
+#units: GPa
 
 def sp1 ():
-    d = 9.5
+    d = canalDiameter
     minStemDia=0
+    appTenStress = 0
     c = 0
-    
     correct = False
     
     while(correct==False):
         d+=1
         if (round(UTSfunction(d),4)==ultTenStrength):
-            minStemDia=round(d,4)
+            minStemDia=round(d,3)
             correct = True
             break
         elif (round(UTSfunction(d),4)<ultTenStrength):
@@ -34,7 +35,8 @@ def sp1 ():
             while (correct==False and d+0.1<c):
                 d+=0.1
                 if (round(UTSfunction(d),4)==ultTenStrength):
-                    minStemDia=round(d,4)
+                    minStemDia=round(d,3)
+                    appTenStress = round(UTSfunction(d),2)
                     correct = True
                     break
                 elif (round(UTSfunction(d),4)<ultTenStrength):
@@ -43,7 +45,8 @@ def sp1 ():
                     while(correct == False and d+0.01<c):
                         d+=0.01
                         if (round(UTSfunction(d),4)==ultTenStrength):
-                            minStemDia=round(d,4)
+                            minStemDia=round(d,3)
+                            appTenStress = round(UTSfunction(d),2)
                             correct = True
                             break
                         elif (round(UTSfunction(d),4)<ultTenStrength):
@@ -51,9 +54,9 @@ def sp1 ():
                             d-=0.01
                             while(correct == False and d+0.001<c):
                                 d+=0.001
-                                print (round(UTSfunction(d),4), ultTenStrength)
                                 if (round(UTSfunction(d),4)==ultTenStrength):
-                                    minStemDia=round(d,4)
+                                    minStemDia=round(d,3)
+                                    appTenStress = round(UTSfunction(d),2)
                                     correct = True
                                     break
                                 elif (round(UTSfunction(d),4)<ultTenStrength):
@@ -61,9 +64,9 @@ def sp1 ():
                                     d-=0.001
                                     while(correct == False and d+0.0001<c):
                                         d+=0.0001
-                                        print (round(UTSfunction(d),2), ultTenStrength)
                                         if (round(UTSfunction(d),2)==ultTenStrength):
-                                            minStemDia=round(d,4)
+                                            minStemDia=round(d,3)
+                                            appTenStress = round(UTSfunction(d),2)
                                             correct = True
                                             break
                                         #if 0.0001
@@ -80,21 +83,23 @@ def sp1 ():
             break
         #elif 1
     #while
-    
-    print("minStemDia = ",minStemDia)
+    print ("\nThe patients bodyweight is "+str(bodyWeight)+" N")
+    print ("The diameter of the canal is "+str(canalDiameter)+" mm")
+    print ("The Ultimate Tensile Strength is "+str(ultTenStrength)+" MPa")
+    print ("The minimum implant stem diameter required is "+str(minStemDia)+" mm")
+    print ("The applied tensile stress taht corresponds to the minimum allowable stem diameter is "+str(appTenStress)+" MPa\n")
 
 
 def UTSfunction(d):
     return (14*bodyWeight*((8*canalOffset)-d))/(math.pi*(d**3))
 
 def main():
-    home = ("HOME \n")
-    print (home.center(70))
     exit = False
     while (exit==False):
-        print (" 1. Subprogram 1 \n 2. Subprogram 2 \n 3. Subprogram 3 \n 4. Exit from program \n")
-        choice = input("Please choose one of the following options by indicating the number that corresponds to your choice: ")
-        if choice == ("1"):
+        print ("      HOME")
+        print ("1. Subprogram 1 \n2. Subprogram 2 \n3. Subprogram 3 \n4. Exit from program \n")
+        choice = int(input("Please choose one of the following options by indicating the number that corresponds to your choice: "))
+        if choice == 1:
             sp1()
             #a parameter must be passed in the paranthesis
         elif choice == ("2"):
