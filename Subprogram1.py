@@ -16,7 +16,7 @@ ultTenStrength = 490
 modulusImplant = 47 
 #units: GPa
 
-def sp1 ():
+def subprogram1 ():
     d = canalDiameter
     minStemDia=0
     appTenStress = 0
@@ -100,15 +100,15 @@ def main():
         print ("1. Subprogram 1 \n2. Subprogram 2 \n3. Subprogram 3 \n4. Exit from program \n")
         choice = int(input("Please choose one of the following options by indicating the number that corresponds to your choice: "))
         if choice == 1:
-            sp1()
+            subprogram1()
             #a parameter must be passed in the paranthesis
-        elif choice == ("2"):
+        elif choice == (2):
             subprogram2()
             #a parameter must be passed in the paranthesis
-        elif choice == ("3"):
+        elif choice == (3):
             subprogram3()
             #a parameter must be passed in the paranthesis
-        elif choice ==("4"):
+        elif choice ==(4):
             exit = True
             print ("You have exited from the program.")
     
