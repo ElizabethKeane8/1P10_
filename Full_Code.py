@@ -106,7 +106,7 @@ def subprogram2 (filename):
         elif (linesL[i][0]<Smax(amplitude,linesL[i][1])):
             #then that is more than the number of cycles until failure
             #therefore you set the values equal to the item in the list directly before, since you know for sure that it won't fail after that many cycles
-            stressFail = linesL[i-1][0] 
+            stressFail = Smax(amplitude,linesL[i-1][1]) 
             cyclesFail = linesL[i-1][1]
             break
     
