@@ -15,7 +15,7 @@ modulusBone = 30
 '''
 Name: subprogram1
 Purpose: to determine the minimum stem diameter required for a given ultimate tensile strength using Newton's Method
-Parameters: float ultTenStrength
+Parameters: float ultTenStrength - ultimate tensile strength of the implant material
 Return: void
 '''
 def subprogram1 (ultTenStrength):
@@ -28,23 +28,23 @@ def subprogram1 (ultTenStrength):
     while (delta>0.0001):
         #use Newton's Method 
         #(it is ATS - UTS since Newton's method is solving for the root (0) which is the difference between the two)
-        d = d - (ATS(d, ultTenStrength)-ultTenStrength)/ATSderivative(d)
-        delta = abs(ultTenStrength-ATS(d, ultTenStrength))
+        d = d - (ATS(d)-ultTenStrength)/ATSderivative(d)
+        delta = abs(ultTenStrength-ATS(d))
     #minStemDia is equal to the d value that led to an ATS within the tolerance of UTS
     minStemDia = round(d,4)
-    appTenStress = round(ATS(d, ultTenStrength),2)
+    appTenStress = round(ATS(d),2)
     
     #print all of the values that are asked for 
-    print ("\nThe patients bodyweight is "+str(bodyWeight)+" N")
-    print ("The diameter of the canal is "+str(canalDiameter)+" mm")
-    print ("The Ultimate Tensile Strength is "+str(ultTenStrength)+" MPa")
-    print ("The minimum implant stem diameter required is "+str(minStemDia)+" mm")
-    print ("The applied tensile stress taht corresponds to the minimum allowable stem diameter is "+str(appTenStress)+" MPa\n") 
+    print ("\n    The patients bodyweight is "+str(bodyWeight)+" N")
+    print ("    The diameter of the canal is "+str(canalDiameter)+" mm")
+    print ("    The Ultimate Tensile Strength is "+str(ultTenStrength)+" MPa")
+    print ("    The minimum implant stem diameter required is "+str(minStemDia)+" mm")
+    print ("    The applied tensile stress taht corresponds to the minimum allowable stem diameter is "+str(appTenStress)+" MPa\n") 
 
 '''
 Name: ATS
 Purpose: to calculate the applied tensile strength for a given diameter 
-Parameters: float d
+Parameters: float d -- diameter
 Return: float
 '''
 def ATS(d):
@@ -53,7 +53,7 @@ def ATS(d):
 '''
 Name: ATSderivative
 Purpose: to calculate derivative of ATS at the point d
-Parameters: float d
+Parameters: float d -- diameter
 Return: float
 '''
 def ATSderivative(d):
@@ -63,7 +63,7 @@ def ATSderivative(d):
 '''
 Name: subprogram2
 Purpose: to determine the number of cycles until failure due to fatigue 
-Parameters: String filename
+Parameters: String filename -- the file with the S-N values
 Return: void
 '''
 def subprogram2 (filename):
@@ -79,6 +79,7 @@ def subprogram2 (filename):
         split[0] = float(split[0])
         split[1] = float(split[1])
         linesL.append(split)
+    #
     
     #determine the maximum and minimum loads
     maxLoad = bodyWeight*10
@@ -111,13 +112,13 @@ def subprogram2 (filename):
             break
     
     #print all of the values that are asked for 
-    print ("\nThe number of cycles N at which failure due to fatigue is likely to occur is "+str(cyclesFail)+" cycles")
-    print ("The maximum stress amplitude that corresponds to failure is "+str(stressFail)+" MPa\n")
+    print ("\n    The number of cycles N at which failure due to fatigue is likely to occur is "+str(cyclesFail)+" cycles")
+    print ("    The maximum stress amplitude that corresponds to failure is "+str(stressFail)+" MPa\n")
  
 '''
 Name: Smax
 Purpose: to determine the maximum stress amplitude based on the number of cycles N
-Parameters: float A, float N
+Parameters: float A -- the stress amplitude, float N -- the number of cycles
 Return: float
 '''   
 def Smax (A, N):
@@ -126,7 +127,7 @@ def Smax (A, N):
 '''
 Name: subprogram3
 Purpose: to determine the number of years post-implantation before there is risk of femora fracture
-Parameters: float modulusImplant
+Parameters: float modulusImplant -- the elastic modulus of the implant material
 Return: void
 '''
 def subprogram3(modulusImplant):
@@ -135,12 +136,10 @@ def subprogram3(modulusImplant):
     
     cross_secArea = math.pi/4 *(outerDia**2 - canalDiameter**2)
     stress_compression = force/cross_secArea
-    
     #the compressive stress applied to the patient's femur after receiving their implant due to stress sheilding
     stressReduc = stress_compression * ((2*modulusBone)/(modulusBone + modulusImplant))**(1/2)
     #modulus ratio between the elastic modulus of the implant and the bone 
     Eratio = (modulusImplant/modulusBone)**(1/2)
-    
     #the number of years since implantation 
     x = 0
     stressFail = 0
@@ -161,13 +160,13 @@ def subprogram3(modulusImplant):
             correct = True
             break
     #print all of the values that are asked for 
-    print ("\nThe number of years post-implantation before there is a risk of femoral fracture is "+str(yrsFail)+" years")
-    print ("The compressive stress on the bone that corresponds to failure is "+str(round(stressFail,4))+" MPa\n" )
+    print ("\n    The number of years post-implantation before there is a risk of femoral fracture is "+str(yrsFail)+" years")
+    print ("    The compressive stress on the bone that corresponds to "+str(yrsFail)+ " years is "+str(round(stressFail,4))+" MPa\n" )
  
 '''
 Name: compStrength
 Purpose: to determine the compressive strength of bone based on the number of years post-implantation
-Parameters: float x, float Eratio
+Parameters: float x -- number of year post-implantation, float Eratio -- the elastic modulus ratio
 Return: float
 '''
 def compStrength (x, Eratio):
