@@ -4,35 +4,30 @@ Team Number 27
 '''
 
 import math
-
-teamNumber = 27
-bodyWeight = (52.5*9.8) #N
-outerDia =  17 #mm
-canalDiameter = 9.5 #mm
-canalOffset = 39 #mm
-modulusBone = 30
     
 '''
 Name: subprogram1
 Purpose: to determine the minimum stem diameter required for a given ultimate tensile strength using Newton's Method
-Parameters: float ultTenStrength - ultimate tensile strength of the implant material
+Parameters: float ultTenStrength - ultimate tensile strength of the implant material, float bodyWeight - the body weight of our patient,
+            float canalOffset - the horizontal distance between the centre of the femoral head and the centre of the medulary canal of our 
+            patient, float canalDiameter - the diameter of our patient's medulary canal
 Return: void
 '''
-def subprogram1 (ultTenStrength):
+def subprogram1 (ultTenStrength, bodyWeight, canalOffset, canalDiameter):
     
-    d = 9.5
+    d = canalDiameter
     #calculate the absolute difference between the ATS value and the UTS value (to make sure that they are within the tolerance of 0.0001)
-    delta = abs(ultTenStrength-ATS(d))
+    delta = abs(ultTenStrength-ATS(d,bodyWeight, canalOffset))
     
     #it will run until an ATS value is found that is within the tolerance
     while (delta>0.0001):
         #use Newton's Method 
         #(it is ATS - UTS since Newton's method is solving for the root (0) which is the difference between the two)
-        d = d - (ATS(d)-ultTenStrength)/ATSderivative(d)
-        delta = abs(ultTenStrength-ATS(d))
+        d = d - (ATS(d,bodyWeight, canalOffset)-ultTenStrength)/ATSderivative(d)
+        delta = abs(ultTenStrength-ATS(d,bodyWeight, canalOffset))
     #minStemDia is equal to the d value that led to an ATS within the tolerance of UTS
     minStemDia = round(d,4)
-    appTenStress = round(ATS(d),2)
+    appTenStress = round(ATS(d,bodyWeight, canalOffset),2)
     
     #print all of the values that are asked for 
     print ("\n    The patients bodyweight is "+str(bodyWeight)+" N")
@@ -44,16 +39,17 @@ def subprogram1 (ultTenStrength):
 '''
 Name: ATS
 Purpose: to calculate the applied tensile strength for a given diameter 
-Parameters: float d -- diameter
+Parameters: float d - diameter, float bodyWeight - the body weight of our patient, float canalOffset - the horizontal distance between 
+            the centre of the femoral head and the centre of the medulary canal,
 Return: float
 '''
-def ATS(d):
+def ATS(d, bodyWeight, canalOffset):
     return (14*bodyWeight*((8*canalOffset)-d))/(math.pi*(d**3))
 
 '''
 Name: ATSderivative
 Purpose: to calculate derivative of ATS at the point d
-Parameters: float d -- diameter
+Parameters: float d - diameter
 Return: float
 '''
 def ATSderivative(d):
@@ -63,10 +59,11 @@ def ATSderivative(d):
 '''
 Name: subprogram2
 Purpose: to determine the number of cycles until failure due to fatigue 
-Parameters: String filename -- the file with the S-N values
+Parameters: String filename - the file with the S-N values, float bodyWeight - the body weight of our patient, float canalDiameter
+             - the diameter of our patient's medulary canal
 Return: void
 '''
-def subprogram2 (filename):
+def subprogram2 (filename, bodyWeight, canalDiameter):
     #open and read the file
     inFile = open(filename,'r')
     lines = inFile.readlines()
@@ -127,10 +124,12 @@ def Smax (A, N):
 '''
 Name: subprogram3
 Purpose: to determine the number of years post-implantation before there is risk of femora fracture
-Parameters: float modulusImplant -- the elastic modulus of the implant material
+Parameters: float modulusImplant - the elastic modulus of the implant material, float bodyWeight - the body weight of our patient,
+            float outerDia - the outer diameter our our patient's femur, float canalDiameter - the diameter of our patient's medulary canal,
+            int modulusBone - the elastic modulus of bone
 Return: void
 '''
-def subprogram3(modulusImplant):
+def subprogram3(modulusImplant, bodyWeight, outerDia, canalDiameter, modulusBone):
    
     force = 30*bodyWeight
     
@@ -174,6 +173,15 @@ def compStrength (x, Eratio):
     return (0.001*x**2 - 3.437*x*(Eratio) + 181.72)
 
 def main():
+    
+    teamNumber = 27
+    bodyWeight = (52.5*9.8) #N
+    outerDia =  17 #mm
+    canalDiameter = 9.5 #mm
+    canalOffset = 39 #mm
+    #modulusBone was found in the IBEHS 1P10 Project Modules, pg.41 DP-2
+    modulusBone = 30
+    
     exit = False
    
     #We allowed the user to input the modulus and UTS of the material so that it will function for whichever material they choose
@@ -185,19 +193,19 @@ def main():
         if choice == 1:
             #call subprogram 1 using the UTS entered by the user
             ultTenStrength = float(input("Enter the ultimate tnesile strength of the implant material in MPa: "))
-            subprogram1(ultTenStrength)
+            subprogram1(ultTenStrength, bodyWeight, canalOffset, canalDiameter)
         elif choice == (2):
             #call subprogram 2 using the file entered by the user
             filename = str(input("Enter the filename you would like to open: "))
-            subprogram2(filename)
+            subprogram2(filename, bodyWeight, canalDiameter)
         elif choice == (3):
             #call subprogram 3 using the elastic modulus entered by the user
             modulusImplant = float(input("Enter the elastic modulus of the implant material in GPa: "))
-            subprogram3(modulusImplant)
+            subprogram3(modulusImplant, bodyWeight, outerDia, canalDiameter, modulusBone)
         elif choice ==(4):
             #exit the program
             exit = True
             print ("You have exited from the program.")
     
     print ("Thank you for using the program")
-main()
+main()   
